@@ -17,6 +17,36 @@ Implement Conway's Game of Life. It should be able to be initialized with a star
 You can represent a live cell with an asterisk (*) and a dead cell with a dot (.).
 */
 
+class GameOfLife{
+  constructor() {
+    this.grid = [
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0]
+    ];
+    this.timer = 0;
+  }
+
+  makeRandom(yourMin,yourMax) {
+    return Math.round(Math.random()*(yourMax-yourMin)+yourMin)
+  }
+
+  startGame() {
+    let xRand;
+    let yRand;
+    for (i = 0; i < xRand ; i++) {
+      
+    }
+
+  }
+
 
 const
 
