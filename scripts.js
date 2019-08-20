@@ -20,40 +20,110 @@ You can represent a live cell with an asterisk (*) and a dead cell with a dot (.
 class GameOfLife{
   constructor() {
     this.grid = [
-      [0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0,0]
+      [9,9,9,9,9,9,9,9,9,9,9,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,1,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,1,1,1,0,0,0,0,9],
+      [9,0,0,0,0,1,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,9,9,9,9,9,9,9,9,9,9,9]
+    ];
+    this.nextGrid = [
+      [9,9,9,9,9,9,9,9,9,9,9,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,9,9,9,9,9,9,9,9,9,9,9]
     ];
     this.timer = 0;
+    this.gameOver = 0;
   }
 
   makeRandom(yourMin,yourMax) {
     return Math.round(Math.random()*(yourMax-yourMin)+yourMin)
   }
 
-  startGame() {
-    let xRand;
-    let yRand;
-    for (i = 0; i < xRand ; i++) {
-      
+  startGame(numberOfStartPoints) {
+    let coords = [];
+    for (i = 0; i < numberOfStartPoints ; i++) {
+      coords.push([makeRandom(1,10),makeRandom(1,10)])
     }
-
+    return coords;
   }
 
+  checkCells() {
+    let count = 0;
+    for (let y=0; y<this.grid.length; y++) {
+      for (let x=0; x<this.grid.length; x++) {
+        if (this.grid[y][x] == 1) {
+          if (
+            this.grid[y-1][x-1] + this.grid[y-1][x] + this.grid[y-1][x+1] +
+            this.grid[y][x-1] +                       this.grid[y][x+1] +
+            this.grid[y+1][x-1] + this.grid[y+1][x] + this.grid[y+1][x+1] < 2) {
+              this.nextGrid[y][x] = 0;
+              count++;
+            } else if (
+              this.grid[y-1][x-1] + this.grid[y-1][x] + this.grid[y-1][x+1] +
+              this.grid[y][x-1] +                       this.grid[y][x+1] +
+              this.grid[y+1][x-1] + this.grid[y+1][x] + this.grid[y+1][x+1] > 3) {
+                this.nextGrid[y][x] = 0;
+                count++;
+              }
+        } else if (this.grid[y][x] == 0) {
+          if (
+            this.grid[y-1][x-1] + this.grid[y-1][x] + this.grid[y-1][x+1] +
+            this.grid[y][x-1] +                       this.grid[y][x+1] +
+            this.grid[y+1][x-1] + this.grid[y+1][x] + this.grid[y+1][x+1] == 3) {
+              this.nextGrid[y][x] = 1;
+              count++;
+            }
+        } else {
+          this.nextGrid[y][x] = this.grid[y][x]
+        }
+      }
+    }
+    return count;
+  }
+}
 
-const
+let game = new GameOfLife
 
 $(document).ready(function() {
+  $('#output-section-0').text(game.grid[0]);
+  $('#output-section-1').text(game.grid[1]);
+  $('#output-section-2').text(game.grid[2]);
+  $('#output-section-3').text(game.grid[3]);
+  $('#output-section-4').text(game.grid[4]);
+  $('#output-section-5').text(game.grid[5]);
+  $('#output-section-6').text(game.grid[6]);
+  $('#output-section-7').text(game.grid[7]);
+  $('#output-section-8').text(game.grid[8]);
+  $('#output-section-9').text(game.grid[9]);
+  $('#output-section-10').text(game.grid[10]);
+  $('#output-section-11').text(game.grid[11]);
   $('#form1').submit(function(event) {
   event.preventDefault();
-  let input1 = $('#input1').val();
-  $('#output-section-1').text(input1);
+  $('#output-section-0').text(game.grid[0]);
+  $('#output-section-1').text(game.grid[1]);
+  $('#output-section-2').text(game.grid[2]);
+  $('#output-section-3').text(game.grid[3]);
+  $('#output-section-4').text(game.grid[4]);
+  $('#output-section-5').text(game.grid[5]);
+  $('#output-section-6').text(game.grid[6]);
+  $('#output-section-7').text(game.grid[7]);
+  $('#output-section-8').text(game.grid[8]);
+  $('#output-section-9').text(game.grid[9]);
+  $('#output-section-10').text(game.grid[10]);
+  $('#output-section-11').text(game.grid[11]);
   })
 });
