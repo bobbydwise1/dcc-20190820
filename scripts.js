@@ -22,10 +22,11 @@ class GameOfLife{
     this.grid = [
       [9,9,9,9,9,9,9,9,9,9,9,9],
       [9,0,0,0,0,0,0,0,0,0,0,9],
-      [9,0,1,0,0,0,0,0,0,0,0,9],
       [9,0,0,0,0,0,0,0,0,0,0,9],
-      [9,0,0,0,1,1,1,0,0,0,0,9],
-      [9,0,0,0,0,1,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
       [9,0,0,0,0,0,0,0,0,0,0,9],
       [9,0,0,0,0,0,0,0,0,0,0,9],
       [9,0,0,0,0,0,0,0,0,0,0,9],
@@ -34,6 +35,7 @@ class GameOfLife{
     ];
     this.nextGrid = [
       [9,9,9,9,9,9,9,9,9,9,9,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
       [9,0,0,0,0,0,0,0,0,0,0,9],
       [9,0,0,0,0,0,0,0,0,0,0,9],
       [9,0,0,0,0,0,0,0,0,0,0,9],
@@ -53,12 +55,12 @@ class GameOfLife{
     return Math.round(Math.random()*(yourMax-yourMin)+yourMin)
   }
 
-  startGame(numberOfStartPoints) {
-    let coords = [];
-    for (i = 0; i < numberOfStartPoints ; i++) {
-      coords.push([makeRandom(1,10),makeRandom(1,10)])
+
+  populateRandom(yourNumber) {
+    for (let k = 0; k<yourNumber; k++) {
+      this.grid[this.makeRandom(1,10)][this.makeRandom(1,10)] = 1;
     }
-    return coords;
+    this.timer = 0;
   }
 
   checkCells() {
@@ -94,11 +96,21 @@ class GameOfLife{
     }
     return count;
   }
+
+  stepForward() {
+    this.checkCells();
+    this.grid = this.nextGrid;
+    this.timer++;
+    console.log('next')
+  }
+
 }
 
 let game = new GameOfLife
 
 $(document).ready(function() {
+  game.populateRandom(20)
+  $('#turns-output').text(game.timer);
   $('#output-section-0').text(game.grid[0]);
   $('#output-section-1').text(game.grid[1]);
   $('#output-section-2').text(game.grid[2]);
@@ -111,19 +123,42 @@ $(document).ready(function() {
   $('#output-section-9').text(game.grid[9]);
   $('#output-section-10').text(game.grid[10]);
   $('#output-section-11').text(game.grid[11]);
-  $('#form1').submit(function(event) {
-  event.preventDefault();
-  $('#output-section-0').text(game.grid[0]);
-  $('#output-section-1').text(game.grid[1]);
-  $('#output-section-2').text(game.grid[2]);
-  $('#output-section-3').text(game.grid[3]);
-  $('#output-section-4').text(game.grid[4]);
-  $('#output-section-5').text(game.grid[5]);
-  $('#output-section-6').text(game.grid[6]);
-  $('#output-section-7').text(game.grid[7]);
-  $('#output-section-8').text(game.grid[8]);
-  $('#output-section-9').text(game.grid[9]);
-  $('#output-section-10').text(game.grid[10]);
-  $('#output-section-11').text(game.grid[11]);
-  })
+
+  $('#button1').click(function() {
+    event.preventDefault();
+    console.log('button1 clicked')
+    game.populateRandom(20)
+    $('#turns-output').text(game.timer);
+    $('#output-section-0').text(game.grid[0]);
+    $('#output-section-1').text(game.grid[1]);
+    $('#output-section-2').text(game.grid[2]);
+    $('#output-section-3').text(game.grid[3]);
+    $('#output-section-4').text(game.grid[4]);
+    $('#output-section-5').text(game.grid[5]);
+    $('#output-section-6').text(game.grid[6]);
+    $('#output-section-7').text(game.grid[7]);
+    $('#output-section-8').text(game.grid[8]);
+    $('#output-section-9').text(game.grid[9]);
+    $('#output-section-10').text(game.grid[10]);
+    $('#output-section-11').text(game.grid[11]);
+  });
+
+  $('#button2').click(function() {
+    event.preventDefault();
+    console.log('button2 clicked')
+    game.stepForward()
+    $('#turns-output').text(game.timer);
+    $('#output-section-0').text(game.grid[0]);
+    $('#output-section-1').text(game.grid[1]);
+    $('#output-section-2').text(game.grid[2]);
+    $('#output-section-3').text(game.grid[3]);
+    $('#output-section-4').text(game.grid[4]);
+    $('#output-section-5').text(game.grid[5]);
+    $('#output-section-6').text(game.grid[6]);
+    $('#output-section-7').text(game.grid[7]);
+    $('#output-section-8').text(game.grid[8]);
+    $('#output-section-9').text(game.grid[9]);
+    $('#output-section-10').text(game.grid[10]);
+    $('#output-section-11').text(game.grid[11]);
+  });
 });

@@ -15,11 +15,8 @@
   <body>
     <div class="container">
     <h1><b>Daily Code Problem 2019-08-20</b></h1>
-
     <p>Good morning! Here's your coding interview problem for today.</p>
-
     <p>This problem was asked by Dropbox.</p>
-
     <p>Conway's Game of Life takes place on an infinite two-dimensional board of square cells. Each cell is either dead or alive, and at each tick, the following rules apply:</p>
     <ul>
         <li>Any live cell with less than two live neighbours dies.</li>
@@ -27,30 +24,29 @@
         <li>Any live cell with more than three live neighbours dies.</li>
         <li>Any dead cell with exactly three live neighbours becomes a live cell.</li>
       </ul>
-
     <p>A cell neighbours another cell if it is horizontally, vertically, or diagonally adjacent.</p>
-
     <p>Implement Conway's Game of Life. It should be able to be initialized with a starting list of live cell coordinates and the number of steps it should run for. Once initialized, it should print out the board state at each step. Since it's an infinite board, print out only the relevant coordinates, i.e. from the top-leftmost live cell to bottom-rightmost live cell.</p>
-
     <p>You can represent a live cell with an asterisk (*) and a dead cell with a dot (.).</p>
     <br>
     <p><b>Answer*:</b></p>
     <form id='form1'>
-      <button type='submit'>Step forward</button>
+      <button type='button' id='button1'>Restart</button>
+      <button type='button' id='button2'>Step Forward</button>
+      <p>Times ran: <span id='turns-output'></span></p>
     </form>
     <br>
-    <p><b><span id='output-section-0'></b></p>
-    <p><b><span id='output-section-1'></b></p>
-    <p><b><span id='output-section-2'></b></p>
-    <p><b><span id='output-section-3'></b></p>
-    <p><b><span id='output-section-4'></b></p>
-    <p><b><span id='output-section-5'></b></p>
-    <p><b><span id='output-section-6'></b></p>
-    <p><b><span id='output-section-7'></b></p>
-    <p><b><span id='output-section-8'></b></p>
-    <p><b><span id='output-section-9'></b></p>
-    <p><b><span id='output-section-10'></b></p>
-    <p><b><span id='output-section-11'></b></p>
+    <p style='font-family: courier'><b><span id='output-section-0'></b></p>
+    <p style='font-family: courier'><b><span id='output-section-1'></b></p>
+    <p style='font-family: courier'><b><span id='output-section-2'></b></p>
+    <p style='font-family: courier'><b><span id='output-section-3'></b></p>
+    <p style='font-family: courier'><b><span id='output-section-4'></b></p>
+    <p style='font-family: courier'><b><span id='output-section-5'></b></p>
+    <p style='font-family: courier'><b><span id='output-section-6'></b></p>
+    <p style='font-family: courier'><b><span id='output-section-7'></b></p>
+    <p style='font-family: courier'><b><span id='output-section-8'></b></p>
+    <p style='font-family: courier'><b><span id='output-section-9'></b></p>
+    <p style='font-family: courier'><b><span id='output-section-10'></b></p>
+    <p style='font-family: courier'><b><span id='output-section-11'></b></p>
   </div>
   </body>
 </html>
