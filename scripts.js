@@ -75,6 +75,7 @@ class GameOfLife{
       this.grid[this.makeRandom(1,10)][this.makeRandom(1,10)] = 1;
     }
     this.timer = 0;
+    this.nextGrid = this.zeroGrid;
   }
 
   checkCells() {
@@ -119,8 +120,6 @@ class GameOfLife{
                   //a dead cell becomes alive if it has 3 living neighbors
                   count++;
                 }
-              } else {
-                this.nextGrid[y][x] = this.grid[y][x]
               }
             }
           }
@@ -129,16 +128,17 @@ class GameOfLife{
 
   stepForward() {
     this.checkCells();
-    this.grid = this.nextGrid;
-    this.nextGrid = this.zeroGrid;
+    this.grid = this.nextGrid.slice();
+    this.nextGrid = this.zeroGrid.slice();
     this.timer++;
   }
 
 }
 
-let game = new GameOfLife
+  let game = new GameOfLife
 
 $(document).ready(function() {
+
   $('#turns-output').text(game.timer);
   $('#output-section-0').text(JSON.stringify(game.grid[0]));
   $('#output-section-1').text(JSON.stringify(game.grid[1]));
