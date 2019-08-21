@@ -129,7 +129,6 @@ class GameOfLife{
   let game = new GameOfLife()
 
 $(document).ready(function() {
-
   $('#turns-output').text(game.timer);
   $('#output-section-0').text(JSON.stringify(game.grid[0]));
   $('#output-section-1').text(JSON.stringify(game.grid[1]));
@@ -143,6 +142,7 @@ $(document).ready(function() {
   $('#output-section-9').text(JSON.stringify(game.grid[9]));
   $('#output-section-10').text(JSON.stringify(game.grid[10]));
   $('#output-section-11').text(JSON.stringify(game.grid[11]));
+    console.log(game.grid)
 
   $('#button1').click(function() {
     event.preventDefault();
@@ -161,6 +161,7 @@ $(document).ready(function() {
     $('#output-section-9').text(JSON.stringify(game.grid[9]));
     $('#output-section-10').text(JSON.stringify(game.grid[10]));
     $('#output-section-11').text(JSON.stringify(game.grid[11]));
+    console.log(game.grid)
   });
 
   $('#button2').click(function() {
@@ -180,5 +181,6 @@ $(document).ready(function() {
     $('#output-section-9').text(JSON.stringify(game.grid[9]));
     $('#output-section-10').text(JSON.stringify(game.grid[10]));
     $('#output-section-11').text(JSON.stringify(game.grid[11]));
+    console.log(game.grid)
   });
 });
