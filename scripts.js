@@ -69,7 +69,6 @@ class GameOfLife{
     return Math.round(Math.random()*(yourMax-yourMin)+yourMin)
   }
 
-
   populateRandom(yourNumber) {
     for (let k = 0; k<yourNumber; k++) {
       this.grid[this.makeRandom(1,10)][this.makeRandom(1,10)] = 1;
@@ -78,64 +77,44 @@ class GameOfLife{
     this.nextGrid = this.zeroGrid;
   }
 
+  sumAround(y,x) {
+    return (this.grid[y-1][x-1] + this.grid[y-1][x] + this.grid[y-1][x+1] +
+    this.grid[y][x-1] +                       this.grid[y][x+1] +
+    this.grid[y+1][x-1] + this.grid[y+1][x] + this.grid[y+1][x+1]);
+  }
+
   checkCells() {
-    let count = 0;
-    let y;
-    let x;
-    for (y=0; y<this.grid.length; y++) {
-      for (x=0; x<this.grid[y].length; x++) {
-        if (this.grid[y][x] == 1) {
-          if (
-            (this.grid[y-1][x-1] + this.grid[y-1][x] + this.grid[y-1][x+1] +
-            this.grid[y][x-1] +                       this.grid[y][x+1] +
-            this.grid[y+1][x-1] + this.grid[y+1][x] + this.grid[y+1][x+1]) < 2) {
-              this.nextGrid[y][x] = 0;
-              //live cell with less than 2 neighbors dies
-              count++;
-            } else if ((
-              (this.grid[y-1][x-1] + this.grid[y-1][x] + this.grid[y-1][x+1] +
-              this.grid[y][x-1] +                       this.grid[y][x+1] +
-              this.grid[y+1][x-1] + this.grid[y+1][x] + this.grid[y+1][x+1]) == 2
-            ) || (
-              (this.grid[y-1][x-1] + this.grid[y-1][x] + this.grid[y-1][x+1] +
-              this.grid[y][x-1] +                       this.grid[y][x+1] +
-              this.grid[y+1][x-1] + this.grid[y+1][x] + this.grid[y+1][x+1]) == 3
-            )) {
-              this.nextGrid[y][x] = 1;
-              //live cell with 2 or 3 neighbors stays alive
-            } else if (
-              (this.grid[y-1][x-1] + this.grid[y-1][x] + this.grid[y-1][x+1] +
-              this.grid[y][x-1] +                       this.grid[y][x+1] +
-              this.grid[y+1][x-1] + this.grid[y+1][x] + this.grid[y+1][x+1]) > 3) {
-                this.nextGrid[y][x] = 0;
-                //live cell with more than 3 neighbors dies
-                count++;
-              }
-            } else if (this.grid[y][x] == 0) {
-              if (
-                (this.grid[y-1][x-1] + this.grid[y-1][x] + this.grid[y-1][x+1] +
-                this.grid[y][x-1] +                       this.grid[y][x+1] +
-                this.grid[y+1][x-1] + this.grid[y+1][x] + this.grid[y+1][x+1]) == 3) {
-                  this.nextGrid[y][x] = 1;
-                  //a dead cell becomes alive if it has 3 living neighbors
-                  count++;
-                }
-              }
-            }
+    for (let y=0; y<this.grid.length; y++) {
+      for (let x=0; x<this.grid.length; x++) {
+        if (this.grid[y][x] === 1) {
+          if (this.sumAround(y,x) < 2) {
+            this.nextGrid[y][x] = 0;
+            //live cell with less than 2 neighbors dies
+          } else if (this.sumAround(y,x) > 3) {
+            this.nextGrid[y][x] = 0;
+            //live cell with more than 3 neighbors dies
+          } else { this.nextGrid[y][x] = 1}
+        } else if (this.grid[y][x] === 0) {
+          if (this.sumAround(y,x) === 3) {
+            this.nextGrid[y][x] = 1;
+            //a dead cell becomes alive if it has 3 living neighbors
           }
-          return count;
-        }
+        } else {this.nextGrid[y][x] = this.grid[y][x]}
+      }
+    }
+    return 1;
+  }
 
   stepForward() {
     this.checkCells();
     this.grid = this.nextGrid.slice();
     this.nextGrid = this.zeroGrid.slice();
     this.timer++;
+    return 1;
   }
-
 }
 
-  let game = new GameOfLife
+  let game = new GameOfLife()
 
 $(document).ready(function() {
 
