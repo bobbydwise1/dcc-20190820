@@ -22,18 +22,32 @@ class GameOfLife{
     this.grid = [
       [9,9,9,9,9,9,9,9,9,9,9,9],
       [9,0,0,0,0,0,0,0,0,0,0,9],
-      [9,0,1,1,0,0,0,0,1,0,0,9],
-      [9,0,1,1,0,0,0,0,1,0,0,9],
-      [9,0,0,0,0,0,0,0,1,0,0,9],
       [9,0,0,0,0,0,0,0,0,0,0,9],
       [9,0,0,0,0,0,0,0,0,0,0,9],
-      [9,0,0,1,0,0,0,0,0,0,0,9],
-      [9,0,1,0,1,0,0,0,0,0,0,9],
-      [9,0,0,1,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,1,1,1,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
       [9,0,0,0,0,0,0,0,0,0,0,9],
       [9,9,9,9,9,9,9,9,9,9,9,9]
     ];
     this.nextGrid = [
+      [9,9,9,9,9,9,9,9,9,9,9,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,0,0,0,0,0,0,0,0,0,0,9],
+      [9,9,9,9,9,9,9,9,9,9,9,9]
+    ];
+    this.zeroGrid = [
       [9,9,9,9,9,9,9,9,9,9,9,9],
       [9,0,0,0,0,0,0,0,0,0,0,9],
       [9,0,0,0,0,0,0,0,0,0,0,9],
@@ -65,43 +79,59 @@ class GameOfLife{
 
   checkCells() {
     let count = 0;
-    for (let y=0; y<this.grid.length; y++) {
-      for (let x=0; x<this.grid.length; x++) {
+    let y;
+    let x;
+    for (y=0; y<this.grid.length; y++) {
+      for (x=0; x<this.grid[y].length; x++) {
         if (this.grid[y][x] == 1) {
           if (
-            this.grid[y-1][x-1] + this.grid[y-1][x] + this.grid[y-1][x+1] +
+            (this.grid[y-1][x-1] + this.grid[y-1][x] + this.grid[y-1][x+1] +
             this.grid[y][x-1] +                       this.grid[y][x+1] +
-            this.grid[y+1][x-1] + this.grid[y+1][x] + this.grid[y+1][x+1] < 2) {
+            this.grid[y+1][x-1] + this.grid[y+1][x] + this.grid[y+1][x+1]) < 2) {
               this.nextGrid[y][x] = 0;
+              //live cell with less than 2 neighbors dies
               count++;
-            } else if (
-              this.grid[y-1][x-1] + this.grid[y-1][x] + this.grid[y-1][x+1] +
+            } else if ((
+              (this.grid[y-1][x-1] + this.grid[y-1][x] + this.grid[y-1][x+1] +
               this.grid[y][x-1] +                       this.grid[y][x+1] +
-              this.grid[y+1][x-1] + this.grid[y+1][x] + this.grid[y+1][x+1] > 3) {
+              this.grid[y+1][x-1] + this.grid[y+1][x] + this.grid[y+1][x+1]) == 2
+            ) || (
+              (this.grid[y-1][x-1] + this.grid[y-1][x] + this.grid[y-1][x+1] +
+              this.grid[y][x-1] +                       this.grid[y][x+1] +
+              this.grid[y+1][x-1] + this.grid[y+1][x] + this.grid[y+1][x+1]) == 3
+            )) {
+              this.nextGrid[y][x] = 1;
+              //live cell with 2 or 3 neighbors stays alive
+            } else if (
+              (this.grid[y-1][x-1] + this.grid[y-1][x] + this.grid[y-1][x+1] +
+              this.grid[y][x-1] +                       this.grid[y][x+1] +
+              this.grid[y+1][x-1] + this.grid[y+1][x] + this.grid[y+1][x+1]) > 3) {
                 this.nextGrid[y][x] = 0;
+                //live cell with more than 3 neighbors dies
                 count++;
               }
-        } else if (this.grid[y][x] == 0) {
-          if (
-            this.grid[y-1][x-1] + this.grid[y-1][x] + this.grid[y-1][x+1] +
-            this.grid[y][x-1] +                       this.grid[y][x+1] +
-            this.grid[y+1][x-1] + this.grid[y+1][x] + this.grid[y+1][x+1] == 3) {
-              this.nextGrid[y][x] = 1;
-              count++;
+            } else if (this.grid[y][x] == 0) {
+              if (
+                (this.grid[y-1][x-1] + this.grid[y-1][x] + this.grid[y-1][x+1] +
+                this.grid[y][x-1] +                       this.grid[y][x+1] +
+                this.grid[y+1][x-1] + this.grid[y+1][x] + this.grid[y+1][x+1]) == 3) {
+                  this.nextGrid[y][x] = 1;
+                  //a dead cell becomes alive if it has 3 living neighbors
+                  count++;
+                }
+              } else {
+                this.nextGrid[y][x] = this.grid[y][x]
+              }
             }
-        } else {
-          this.nextGrid[y][x] = this.grid[y][x]
+          }
+          return count;
         }
-      }
-    }
-    return count;
-  }
 
   stepForward() {
     this.checkCells();
     this.grid = this.nextGrid;
+    this.nextGrid = this.zeroGrid;
     this.timer++;
-    console.log('next')
   }
 
 }
@@ -110,36 +140,36 @@ let game = new GameOfLife
 
 $(document).ready(function() {
   $('#turns-output').text(game.timer);
-  $('#output-section-0').text(game.grid[0]);
-  $('#output-section-1').text(game.grid[1]);
-  $('#output-section-2').text(game.grid[2]);
-  $('#output-section-3').text(game.grid[3]);
-  $('#output-section-4').text(game.grid[4]);
-  $('#output-section-5').text(game.grid[5]);
-  $('#output-section-6').text(game.grid[6]);
-  $('#output-section-7').text(game.grid[7]);
-  $('#output-section-8').text(game.grid[8]);
-  $('#output-section-9').text(game.grid[9]);
-  $('#output-section-10').text(game.grid[10]);
-  $('#output-section-11').text(game.grid[11]);
+  $('#output-section-0').text(JSON.stringify(game.grid[0]));
+  $('#output-section-1').text(JSON.stringify(game.grid[1]));
+  $('#output-section-2').text(JSON.stringify(game.grid[2]));
+  $('#output-section-3').text(JSON.stringify(game.grid[3]));
+  $('#output-section-4').text(JSON.stringify(game.grid[4]));
+  $('#output-section-5').text(JSON.stringify(game.grid[5]));
+  $('#output-section-6').text(JSON.stringify(game.grid[6]));
+  $('#output-section-7').text(JSON.stringify(game.grid[7]));
+  $('#output-section-8').text(JSON.stringify(game.grid[8]));
+  $('#output-section-9').text(JSON.stringify(game.grid[9]));
+  $('#output-section-10').text(JSON.stringify(game.grid[10]));
+  $('#output-section-11').text(JSON.stringify(game.grid[11]));
 
   $('#button1').click(function() {
     event.preventDefault();
     console.log('button1 clicked')
     game.populateRandom(20)
     $('#turns-output').text(game.timer);
-    $('#output-section-0').text(game.grid[0]);
-    $('#output-section-1').text(game.grid[1]);
-    $('#output-section-2').text(game.grid[2]);
-    $('#output-section-3').text(game.grid[3]);
-    $('#output-section-4').text(game.grid[4]);
-    $('#output-section-5').text(game.grid[5]);
-    $('#output-section-6').text(game.grid[6]);
-    $('#output-section-7').text(game.grid[7]);
-    $('#output-section-8').text(game.grid[8]);
-    $('#output-section-9').text(game.grid[9]);
-    $('#output-section-10').text(game.grid[10]);
-    $('#output-section-11').text(game.grid[11]);
+    $('#output-section-0').text(JSON.stringify(game.grid[0]));
+    $('#output-section-1').text(JSON.stringify(game.grid[1]));
+    $('#output-section-2').text(JSON.stringify(game.grid[2]));
+    $('#output-section-3').text(JSON.stringify(game.grid[3]));
+    $('#output-section-4').text(JSON.stringify(game.grid[4]));
+    $('#output-section-5').text(JSON.stringify(game.grid[5]));
+    $('#output-section-6').text(JSON.stringify(game.grid[6]));
+    $('#output-section-7').text(JSON.stringify(game.grid[7]));
+    $('#output-section-8').text(JSON.stringify(game.grid[8]));
+    $('#output-section-9').text(JSON.stringify(game.grid[9]));
+    $('#output-section-10').text(JSON.stringify(game.grid[10]));
+    $('#output-section-11').text(JSON.stringify(game.grid[11]));
   });
 
   $('#button2').click(function() {
@@ -147,17 +177,17 @@ $(document).ready(function() {
     console.log('button2 clicked')
     game.stepForward()
     $('#turns-output').text(game.timer);
-    $('#output-section-0').text(game.grid[0]);
-    $('#output-section-1').text(game.grid[1]);
-    $('#output-section-2').text(game.grid[2]);
-    $('#output-section-3').text(game.grid[3]);
-    $('#output-section-4').text(game.grid[4]);
-    $('#output-section-5').text(game.grid[5]);
-    $('#output-section-6').text(game.grid[6]);
-    $('#output-section-7').text(game.grid[7]);
-    $('#output-section-8').text(game.grid[8]);
-    $('#output-section-9').text(game.grid[9]);
-    $('#output-section-10').text(game.grid[10]);
-    $('#output-section-11').text(game.grid[11]);
+    $('#output-section-0').text(JSON.stringify(game.grid[0]));
+    $('#output-section-1').text(JSON.stringify(game.grid[1]));
+    $('#output-section-2').text(JSON.stringify(game.grid[2]));
+    $('#output-section-3').text(JSON.stringify(game.grid[3]));
+    $('#output-section-4').text(JSON.stringify(game.grid[4]));
+    $('#output-section-5').text(JSON.stringify(game.grid[5]));
+    $('#output-section-6').text(JSON.stringify(game.grid[6]));
+    $('#output-section-7').text(JSON.stringify(game.grid[7]));
+    $('#output-section-8').text(JSON.stringify(game.grid[8]));
+    $('#output-section-9').text(JSON.stringify(game.grid[9]));
+    $('#output-section-10').text(JSON.stringify(game.grid[10]));
+    $('#output-section-11').text(JSON.stringify(game.grid[11]));
   });
 });
